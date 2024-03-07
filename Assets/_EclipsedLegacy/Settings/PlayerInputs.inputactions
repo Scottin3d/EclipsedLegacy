@@ -1,0 +1,34 @@
+{
+    "name": "PlayerInputs",
+    "maps": [
+        {
+            "name": "PointClick",
+            "id": "f37aa72e-bba4-4225-a26d-4e64c1dd15da",
+            "actions": [
+                {
+                    "name": "Move",
+                    "type": "Button",
+                    "id": "6b6ccaa9-293b-446b-9811-b8794507b94c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "adedc4d8-b3a2-4107-8189-6dc64e2d542c",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
