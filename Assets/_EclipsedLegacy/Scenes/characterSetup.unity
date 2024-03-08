@@ -1212,6 +1212,22 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &1309643321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1309643316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9697accba7a03ff42bd3cfebff7b2932, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Click: 0
+  Ctrl: 0
+  cursorLocked: 0
+  cursorInputForLook: 0
 --- !u!1 &1691865041
 GameObject:
   m_ObjectHideFlags: 3
@@ -1504,6 +1520,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1309643318}
+    - targetCorrespondingSourceObject: {fileID: 2282392623988062174, guid: 956af83da71f0624c88061aec6f85fb7,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1309643321}
   m_SourcePrefab: {fileID: 100100000, guid: 956af83da71f0624c88061aec6f85fb7, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

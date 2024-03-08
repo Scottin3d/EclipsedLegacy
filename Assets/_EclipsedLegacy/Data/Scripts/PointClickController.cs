@@ -7,24 +7,25 @@ using KBCore.Refs;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Interactions;
 
 namespace in3d.EL.Player.Controllers
 {
+
     public class PointClickController : ValidatedMonoBehaviour
     {
         [SerializeField, Self] private Animator animator;
         [SerializeField, Self] private NavMeshAgent navMeshAgent;
-        PlayerInputs playerInputs;
+        PlayerInputController playerInputs;
 
         [SerializeField] private ParticleSystem clickEffect;
         [SerializeField] private LayerMask clickLayerMask;
+        float lastClickTime = 0f;
 
         private StateMachine stateMachine;
 
-        void Awake(){
-            playerInputs = new PlayerInputs();
-            AssignInputActions();
+        void Awake()
+        {
+            playerInputs = PlayerInputController.Instance;
 
         }
         private void Start()
@@ -42,42 +43,38 @@ namespace in3d.EL.Player.Controllers
         void Update()
         {
             stateMachine.Update();
-        }
 
+            HandleClick();
+        }
         void FixedUpdate()
         {
             stateMachine.FixedUpdate();
         }
 
-        private void AssignInputActions()
+        private void HandleClick()
         {
-            playerInputs.PointClick.Move.performed += ctx => OnClick(ctx);
+            if (playerInputs.Click) OnClick();
         }
 
-        private void OnClick(InputAction.CallbackContext ctx)
-        {
 
-            if(Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, 100f, clickLayerMask))
+        private void OnClick()
+        {
+            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, 100f, clickLayerMask))
             {
+                if (Time.time - lastClickTime < 0.2f)
+                {
+                    navMeshAgent.speed = 7f;
+                }
                 navMeshAgent.SetDestination(hit.point);
-                if(clickEffect != null)
+                if (clickEffect != null)
                 {
                     Instantiate(clickEffect, hit.point += new Vector3(0f, 0.1f, 0f), Quaternion.identity);
                 }
             }
-        }  
-        
-
-        void OnEnable()
-        {
-            playerInputs.Enable();
+            lastClickTime = Time.time;
         }
 
-        void OnDisable(){
-            playerInputs.Disable();
-        }
-
-         void At(IState from, IState to, IPredicate condition) => stateMachine.AddTransition(from, to, condition);
+        void At(IState from, IState to, IPredicate condition) => stateMachine.AddTransition(from, to, condition);
         void Any(IState to, IPredicate condition) => stateMachine.AddAnyTransition(to, condition);
     }
 }

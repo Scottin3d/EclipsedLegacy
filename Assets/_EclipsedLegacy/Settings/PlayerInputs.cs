@@ -35,6 +35,15 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ctrl"",
+                    ""type"": ""Button"",
+                    ""id"": ""68b9357a-f5fa-4a86-b427-9efd5d1ea6d0"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -48,6 +57,17 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""eccd6293-84ff-422b-9c4a-1dfda2cd06f9"",
+                    ""path"": ""<Keyboard>/ctrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ctrl"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -57,6 +77,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         // PointClick
         m_PointClick = asset.FindActionMap("PointClick", throwIfNotFound: true);
         m_PointClick_Move = m_PointClick.FindAction("Move", throwIfNotFound: true);
+        m_PointClick_ctrl = m_PointClick.FindAction("ctrl", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -119,11 +140,13 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_PointClick;
     private List<IPointClickActions> m_PointClickActionsCallbackInterfaces = new List<IPointClickActions>();
     private readonly InputAction m_PointClick_Move;
+    private readonly InputAction m_PointClick_ctrl;
     public struct PointClickActions
     {
         private @PlayerInputs m_Wrapper;
         public PointClickActions(@PlayerInputs wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_PointClick_Move;
+        public InputAction @ctrl => m_Wrapper.m_PointClick_ctrl;
         public InputActionMap Get() { return m_Wrapper.m_PointClick; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -136,6 +159,9 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             @Move.started += instance.OnMove;
             @Move.performed += instance.OnMove;
             @Move.canceled += instance.OnMove;
+            @ctrl.started += instance.OnCtrl;
+            @ctrl.performed += instance.OnCtrl;
+            @ctrl.canceled += instance.OnCtrl;
         }
 
         private void UnregisterCallbacks(IPointClickActions instance)
@@ -143,6 +169,9 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             @Move.started -= instance.OnMove;
             @Move.performed -= instance.OnMove;
             @Move.canceled -= instance.OnMove;
+            @ctrl.started -= instance.OnCtrl;
+            @ctrl.performed -= instance.OnCtrl;
+            @ctrl.canceled -= instance.OnCtrl;
         }
 
         public void RemoveCallbacks(IPointClickActions instance)
@@ -163,5 +192,6 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
     public interface IPointClickActions
     {
         void OnMove(InputAction.CallbackContext context);
+        void OnCtrl(InputAction.CallbackContext context);
     }
 }
