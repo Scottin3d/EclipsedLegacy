@@ -20,8 +20,9 @@ namespace in3d.EL.Player.Controllers
         [SerializeField] private ParticleSystem clickEffect;
         [SerializeField] private LayerMask clickLayerMask;
         float lastClickTime = 0f;
-
         private StateMachine stateMachine;
+
+        public bool hasJob = false;
 
         void Awake()
         {
@@ -32,10 +33,12 @@ namespace in3d.EL.Player.Controllers
         {
             stateMachine = new StateMachine();
             var idleState = new PlayerIdleState(animator);
-            var walkState = new PlayerWalkState(animator, navMeshAgent);
+            var walkState = new PlayerLocomotionState(animator, navMeshAgent);
+            var buildState = new PlayerBuildState(animator);
 
-            Any(idleState, new FuncPredicate(() => !navMeshAgent.hasPath));
+            Any(idleState, new FuncPredicate(ReturnToIdleState));
             At(idleState, walkState, new FuncPredicate(() => navMeshAgent.hasPath));
+            At(walkState, buildState, new FuncPredicate(EnterBuildState));
 
             stateMachine.SetState(idleState);
         }
@@ -72,6 +75,14 @@ namespace in3d.EL.Player.Controllers
                 }
             }
             lastClickTime = Time.time;
+        }
+
+        private bool EnterBuildState(){
+            return !navMeshAgent.hasPath && hasJob;
+        }
+
+        private bool ReturnToIdleState(){
+            return !navMeshAgent.hasPath && !hasJob;
         }
 
         void At(IState from, IState to, IPredicate condition) => stateMachine.AddTransition(from, to, condition);
