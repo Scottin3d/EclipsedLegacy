@@ -61,14 +61,13 @@ namespace in3d.EL.GameLogic.StateMachine.Player
 
         public override void OnEnter()
         {
-            animator.CrossFade(walkAnimationHash, crossFadeDuration);
+            animator.CrossFade(walkAnimationHash, 0.01f);
             Debug.Log("Walk state entered");
         }
 
         public override void Update()
         {
             animator.SetFloat("Speed", navMeshAgent.velocity.magnitude);
-            Debug.Log($"Sped: {navMeshAgent.velocity.magnitude}");
         }
 
         public override void FixedUpdate()
@@ -76,6 +75,7 @@ namespace in3d.EL.GameLogic.StateMachine.Player
             if (navMeshAgent.remainingDistance < navMeshAgent.stoppingDistance)
             {
                 navMeshAgent.isStopped = true;
+                navMeshAgent.speed = 3.5f;
                 navMeshAgent.ResetPath();
             }
 

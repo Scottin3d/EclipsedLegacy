@@ -1,10 +1,13 @@
 
+using System;
 using in3d.EL.GameLogic.StateMachine.Player;
 using in3d.Utilities.GameLogic.StateMachine;
 using in3d.Utilities.StateMachine.interfaces;
 using KBCore.Refs;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Interactions;
 
 namespace in3d.EL.Player.Controllers
 {
@@ -48,11 +51,12 @@ namespace in3d.EL.Player.Controllers
 
         private void AssignInputActions()
         {
-            playerInputs.PointClick.Move.performed += _ => OnClick();
+            playerInputs.PointClick.Move.performed += ctx => OnClick(ctx);
         }
 
-        private void OnClick()
+        private void OnClick(InputAction.CallbackContext ctx)
         {
+
             if(Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, 100f, clickLayerMask))
             {
                 navMeshAgent.SetDestination(hit.point);
@@ -61,7 +65,8 @@ namespace in3d.EL.Player.Controllers
                     Instantiate(clickEffect, hit.point += new Vector3(0f, 0.1f, 0f), Quaternion.identity);
                 }
             }
-        }
+        }  
+        
 
         void OnEnable()
         {
