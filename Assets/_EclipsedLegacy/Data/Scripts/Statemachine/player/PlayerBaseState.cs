@@ -49,6 +49,7 @@ namespace in3d.EL.GameLogic.StateMachine.Player
         public override void OnEnter()
         {
             animator.CrossFade(baseLocomotionHash, 0.01f);
+            Debug.Log("Entering Locomotion State");
         }
 
         public override void Update()
@@ -79,13 +80,14 @@ namespace in3d.EL.GameLogic.StateMachine.Player
         public AgentWeaponLocomotionState(Animator animator, NavMeshAgent navMeshAgent) : base(animator, navMeshAgent) { }
         public override void OnEnter()
         {
-            animator.SetLayerWeight(1, 1);
+            animator.SetLayerWeight(2, 1);
             animator.SetBool("HasWeapon", true);
+            Debug.Log("Entering Weapon Locomotion State");
         }
 
         public override void OnExit()
         {
-            animator.SetLayerWeight(1, 0);
+            animator.SetLayerWeight(2, 0);
             animator.SetBool("HasWeapon", false);
         }
     }
@@ -100,6 +102,7 @@ namespace in3d.EL.GameLogic.StateMachine.Player
             animator.SetLayerWeight(1, 1);
             animator.SetTrigger("Build");
             animator.SetBool("IsBuilding", true);
+            Debug.Log("Entering Build State");
         }
 
         public override void OnExit()

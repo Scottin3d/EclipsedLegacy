@@ -49,7 +49,10 @@ namespace in3d.EL.Player.Controllers
                 {
                     navMeshAgent.speed = 7f;
                 }
-                navMeshAgent.speed = 3.5f;
+                else
+                {
+                    navMeshAgent.speed = 3.5f;
+                }
                 navMeshAgent.SetDestination(hit.point);
                 if (clickEffect != null)
                 {

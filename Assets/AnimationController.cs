@@ -23,7 +23,7 @@ namespace in3d.EL
             var AgentWeaponLocomotionState = new AgentWeaponLocomotionState(animator, navMeshAgent);
             var buildState = new PlayerBuildState(animator);
 
-            Any(baseLocomotionState, new FuncPredicate(() => hasWeapon));
+            Any(AgentWeaponLocomotionState, new FuncPredicate(ReturnToWeaponLocomotion));
             Any(baseLocomotionState, new FuncPredicate(ReturnToBaseLocomotion));
             At(baseLocomotionState, buildState, new FuncPredicate(EnterBuildState));
 
@@ -47,6 +47,10 @@ namespace in3d.EL
 
         private bool ReturnToBaseLocomotion(){
             return !navMeshAgent.hasPath && !hasJob;
+        }
+
+        private bool ReturnToWeaponLocomotion(){
+            return hasWeapon;
         }
 
         void At(IState from, IState to, IPredicate condition) => stateMachine.AddTransition(from, to, condition);
