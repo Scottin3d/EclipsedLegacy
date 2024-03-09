@@ -18,21 +18,10 @@ namespace in3d.Utilities.GameLogic.Detection
         [SerializeField] private LayerMask targetMask;
         [SerializeField] private LayerMask obstructionMask;
         [SerializeField] private float detectionCoolDown = 1f;
-        public bool CanSeeTarget { get; private set; }
+        [SerializeField] public bool CanSeeTarget { get; private set; }
 
-        public Transform BestTarget { get; private set; } = null;
-
-        private void OnDrawGizmos()
-        {
-            // if (ShowGizmos)
-            // {
-            //     Gizmos.color = Color.white;
-            //     Gizmos.DrawWireSphere(transform.position, DetectionRadius);
-
-            //     Gizmos.color = Color.yellow;
-            //     Gizmos.DrawWireSphere(transform.position, InnerDetectionRadius);
-            // }
-        }
+        private Transform bestTarget = null;
+        public Transform BestTarget => bestTarget;
 
         private void Start()
         {
@@ -63,7 +52,7 @@ namespace in3d.Utilities.GameLogic.Detection
         /// </summary>
         private void FieldOfViewCheck()
         {
-            BestTarget = null;
+            bestTarget = null;
 
             Collider[] rangeChecks = Physics.OverlapSphere(transform.position, DetectionRadius, targetMask);
 
@@ -91,7 +80,7 @@ namespace in3d.Utilities.GameLogic.Detection
                         else
                         {
                             CanSeeTarget = true;
-                            BestTarget = target;
+                            bestTarget = target;
                             Debug.Log("I see the player");
                         }
 
@@ -103,6 +92,64 @@ namespace in3d.Utilities.GameLogic.Detection
             {
                 CanSeeTarget = false;
             }
+        }
+
+
+        private void OnDrawGizmos()
+        {
+            if (ShowGizmos)
+            {
+
+                Gizmos.color = Color.white;
+                // outer radius
+                DrawGizmoCircle(transform.position, Vector3.forward, DetectionRadius);
+                if(gizmoType == GizmoDisplayType.d3){
+                    DrawGizmoCircle(transform.position, Vector3.right, DetectionRadius);
+                    DrawGizmoCircle(transform.position, Vector3.up, DetectionRadius);
+                }
+
+                // inner radius
+                Gizmos.color = Color.yellow;
+                DrawGizmoCircle(transform.position, Vector3.forward, InnerDetectionRadius);
+                if(gizmoType == GizmoDisplayType.d3){
+                    DrawGizmoCircle(transform.position, Vector3.right, InnerDetectionRadius);
+                    DrawGizmoCircle(transform.position, Vector3.up, InnerDetectionRadius);
+                }
+
+                Vector3 viewAngle01 = DirectionFromAngle(transform.eulerAngles.y, -Angle / 2);
+                Vector3 viewAngle02 = DirectionFromAngle(transform.eulerAngles.y, Angle / 2);
+
+                // view angle
+                Gizmos.color = Color.yellow;
+                Gizmos.DrawLine(transform.position, transform.position + viewAngle01 * DetectionRadius);
+                Gizmos.DrawLine(transform.position, transform.position + viewAngle02 * DetectionRadius);
+
+                if (CanSeeTarget && BestTarget != null)
+                {
+                    Gizmos.DrawLine(transform.position, BestTarget.position);
+                }
+            }
+        }
+        
+        private void DrawGizmoCircle(Vector3 position, Vector3 direction, float radius)
+        {
+            Vector3[] points = new Vector3[36];
+            Quaternion rot = Quaternion.LookRotation(direction);
+            for (int i = 0; i < 36; i++)
+            {
+                points[i] = position + rot * Vector3.forward * radius;
+                rot *= Quaternion.Euler(0, 10, 0);
+            }
+            for (int i = 0; i < 36; i++)
+            {
+                Gizmos.DrawLine(points[i], points[(i + 1) % 36]);
+            }
+        }        
+        private Vector3 DirectionFromAngle(float eulerV, float angleInDegrees)
+        {
+            angleInDegrees += eulerV;
+
+            return new Vector3(Mathf.Sin(angleInDegrees * Mathf.Deg2Rad), 0, Mathf.Cos(angleInDegrees * Mathf.Deg2Rad));
         }
 
     }
