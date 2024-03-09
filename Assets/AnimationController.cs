@@ -15,23 +15,26 @@ namespace in3d.EL
         [SerializeField, Self] private NavMeshAgent navMeshAgent;
         private StateMachine stateMachine;
         public bool hasJob = false;
+        public bool hasWeapon = true;
 
         void Start(){
             stateMachine = new StateMachine();
-            var idleState = new PlayerIdleState(animator);
-            var walkState = new PlayerLocomotionState(animator, navMeshAgent);
+            var baseLocomotionState = new PlayerLocomotionState(animator, navMeshAgent);
+            var AgentWeaponLocomotionState = new AgentWeaponLocomotionState(animator, navMeshAgent);
             var buildState = new PlayerBuildState(animator);
 
-            Any(idleState, new FuncPredicate(ReturnToIdleState));
-            At(idleState, walkState, new FuncPredicate(() => navMeshAgent.hasPath));
-            At(walkState, buildState, new FuncPredicate(EnterBuildState));
+            Any(baseLocomotionState, new FuncPredicate(() => hasWeapon));
+            Any(baseLocomotionState, new FuncPredicate(ReturnToBaseLocomotion));
+            At(baseLocomotionState, buildState, new FuncPredicate(EnterBuildState));
 
-            stateMachine.SetState(idleState);
+            stateMachine.SetState(baseLocomotionState);
         }
 
         void Update()
         {
             stateMachine.Update();
+            animator.SetBool("HasWeapon", hasWeapon);
+            
         }
         void FixedUpdate()
         {
@@ -39,10 +42,10 @@ namespace in3d.EL
         }
 
         private bool EnterBuildState(){
-            return !navMeshAgent.hasPath && hasJob;
+            return !navMeshAgent.hasPath && hasJob && !hasWeapon;
         }
 
-        private bool ReturnToIdleState(){
+        private bool ReturnToBaseLocomotion(){
             return !navMeshAgent.hasPath && !hasJob;
         }
 
