@@ -104,16 +104,14 @@ namespace in3d.Utilities.GameLogic.Detection
                 // outer radius
                 DrawGizmoCircle(transform.position, Vector3.forward, DetectionRadius);
                 if(gizmoType == GizmoDisplayType.d3){
-                    DrawGizmoCircle(transform.position, Vector3.right, DetectionRadius);
-                    DrawGizmoCircle(transform.position, Vector3.up, DetectionRadius);
+                    Gizmos.DrawWireSphere(transform.position, DetectionRadius);
                 }
 
                 // inner radius
                 Gizmos.color = Color.yellow;
                 DrawGizmoCircle(transform.position, Vector3.forward, InnerDetectionRadius);
                 if(gizmoType == GizmoDisplayType.d3){
-                    DrawGizmoCircle(transform.position, Vector3.right, InnerDetectionRadius);
-                    DrawGizmoCircle(transform.position, Vector3.up, InnerDetectionRadius);
+                    Gizmos.DrawWireSphere(transform.position, InnerDetectionRadius);
                 }
 
                 Vector3 viewAngle01 = DirectionFromAngle(transform.eulerAngles.y, -Angle / 2);
