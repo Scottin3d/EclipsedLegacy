@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 
 namespace in3d.EL.Player.Controllers
 {
+    [DisallowMultipleComponent]
     public class PlayerInputController : Singleton<PlayerInputController>,  @PlayerInputs.IPointClickActions
     {
         PlayerInputs playerInputs;

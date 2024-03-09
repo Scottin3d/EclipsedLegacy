@@ -7,23 +7,30 @@ using UnityEngine.AI;
 
 namespace in3d.EL
 {
+    [RequireComponent(typeof(Animator)), RequireComponent(typeof(NavMeshAgent)), RequireComponent(typeof(PropHold))]
     public class AnimationController : ValidatedMonoBehaviour
     {
         [SerializeField, Self] private Animator animator;
+        [SerializeField, Self] private PropHold propHold;
         [SerializeField, Self] private NavMeshAgent navMeshAgent;
         private StateMachine stateMachine;
         public bool hasJob = false;
-        public bool hasWeapon = true;
+        public bool hasWeapon = false;
+        public bool isCarrying = false;
 
         void Start(){
             stateMachine = new StateMachine();
             var baseLocomotionState = new AgentBaseLocomotionState(animator, navMeshAgent);
             var AgentWeaponLocomotionState = new AgentWeaponLocomotionState(animator, navMeshAgent);
             var buildState = new AgentBuildState(animator);
+            var carryState = new AgentCarryState(animator, navMeshAgent, propHold);
+
 
             Any(AgentWeaponLocomotionState, new FuncPredicate(ReturnToWeaponLocomotion));
             Any(baseLocomotionState, new FuncPredicate(ReturnToBaseLocomotion));
+            Any(carryState, new FuncPredicate(() => isCarrying));
             At(baseLocomotionState, buildState, new FuncPredicate(EnterBuildState));
+            
 
             stateMachine.SetState(baseLocomotionState);
         }
@@ -43,7 +50,7 @@ namespace in3d.EL
         }
 
         private bool ReturnToBaseLocomotion(){
-            return !navMeshAgent.hasPath && !hasJob;
+            return !hasJob && !hasWeapon && !isCarrying;
         }
 
         private bool ReturnToWeaponLocomotion(){
