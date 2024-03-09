@@ -13,17 +13,13 @@ namespace in3d.EL.Player.Controllers
 
     public class PointClickController : ValidatedMonoBehaviour
     {
-        [SerializeField, Self] private Animator animator;
+        [SerializeField, Self] private AnimationController animationController;
         [SerializeField, Self] private NavMeshAgent navMeshAgent;
         PlayerInputController playerInputs;
 
         [SerializeField] private ParticleSystem clickEffect;
         [SerializeField] private LayerMask clickLayerMask;
         float lastClickTime = 0f;
-        private StateMachine stateMachine;
-
-        public bool hasJob = false;
-
         void Awake()
         {
             playerInputs = PlayerInputController.Instance;
@@ -31,27 +27,12 @@ namespace in3d.EL.Player.Controllers
         }
         private void Start()
         {
-            stateMachine = new StateMachine();
-            var idleState = new PlayerIdleState(animator);
-            var walkState = new PlayerLocomotionState(animator, navMeshAgent);
-            var buildState = new PlayerBuildState(animator);
-
-            Any(idleState, new FuncPredicate(ReturnToIdleState));
-            At(idleState, walkState, new FuncPredicate(() => navMeshAgent.hasPath));
-            At(walkState, buildState, new FuncPredicate(EnterBuildState));
-
-            stateMachine.SetState(idleState);
         }
 
         void Update()
         {
-            stateMachine.Update();
 
             HandleClick();
-        }
-        void FixedUpdate()
-        {
-            stateMachine.FixedUpdate();
         }
 
         private void HandleClick()
@@ -76,17 +57,6 @@ namespace in3d.EL.Player.Controllers
             }
             lastClickTime = Time.time;
         }
-
-        private bool EnterBuildState(){
-            return !navMeshAgent.hasPath && hasJob;
-        }
-
-        private bool ReturnToIdleState(){
-            return !navMeshAgent.hasPath && !hasJob;
-        }
-
-        void At(IState from, IState to, IPredicate condition) => stateMachine.AddTransition(from, to, condition);
-        void Any(IState to, IPredicate condition) => stateMachine.AddAnyTransition(to, condition);
     }
 }
 
