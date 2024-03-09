@@ -1,6 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using in3d.EL.GameLogic.StateMachine.Player;
+using in3d.EL.GameLogic.StateMachine.Agent;
 using in3d.Utilities.GameLogic.StateMachine;
 using in3d.Utilities.StateMachine.interfaces;
 using KBCore.Refs;
@@ -19,9 +17,9 @@ namespace in3d.EL
 
         void Start(){
             stateMachine = new StateMachine();
-            var baseLocomotionState = new PlayerLocomotionState(animator, navMeshAgent);
+            var baseLocomotionState = new AgentBaseLocomotionState(animator, navMeshAgent);
             var AgentWeaponLocomotionState = new AgentWeaponLocomotionState(animator, navMeshAgent);
-            var buildState = new PlayerBuildState(animator);
+            var buildState = new AgentBuildState(animator);
 
             Any(AgentWeaponLocomotionState, new FuncPredicate(ReturnToWeaponLocomotion));
             Any(baseLocomotionState, new FuncPredicate(ReturnToBaseLocomotion));
@@ -34,7 +32,6 @@ namespace in3d.EL
         {
             stateMachine.Update();
             animator.SetBool("HasWeapon", hasWeapon);
-            
         }
         void FixedUpdate()
         {

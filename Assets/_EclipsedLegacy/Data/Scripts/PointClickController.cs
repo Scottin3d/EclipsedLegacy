@@ -25,13 +25,9 @@ namespace in3d.EL.Player.Controllers
             playerInputs = PlayerInputController.Instance;
 
         }
-        private void Start()
-        {
-        }
 
         void Update()
         {
-
             HandleClick();
         }
 
