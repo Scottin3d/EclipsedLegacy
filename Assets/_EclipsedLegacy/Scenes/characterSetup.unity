@@ -1354,6 +1354,30 @@ MonoBehaviour:
   animator: {fileID: 1309643319}
   navMeshAgent: {fileID: 1309643320}
   hasJob: 0
+  hasWeapon: 0
+--- !u!114 &1309643324
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1309643316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8149ee23661a5534f97108d4757b7c9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gizmoType: 1
+  ShowGizmos: 1
+  detectionRadius: 10
+  innerDetectionRadius: 5
+  targetMask:
+    serializedVersion: 2
+    m_Bits: 0
+  obstructionMask:
+    serializedVersion: 2
+    m_Bits: 0
+  detectionCoolDown: 1
 --- !u!1 &1312920397
 GameObject:
   m_ObjectHideFlags: 0
@@ -1901,6 +1925,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1309643323}
+    - targetCorrespondingSourceObject: {fileID: 2282392623988062174, guid: 956af83da71f0624c88061aec6f85fb7,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1309643324}
   m_SourcePrefab: {fileID: 100100000, guid: 956af83da71f0624c88061aec6f85fb7, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

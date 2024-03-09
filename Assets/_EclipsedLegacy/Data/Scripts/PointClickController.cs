@@ -1,6 +1,6 @@
 
 using System;
-using in3d.EL.GameLogic.StateMachine.Player;
+using in3d.EL.GameLogic.StateMachine.Agent;
 using in3d.Utilities.GameLogic.StateMachine;
 using in3d.Utilities.StateMachine.interfaces;
 using KBCore.Refs;
@@ -13,6 +13,7 @@ namespace in3d.EL.Player.Controllers
 
     public class PointClickController : ValidatedMonoBehaviour
     {
+        
         [SerializeField, Self] private AnimationController animationController;
         [SerializeField, Self] private NavMeshAgent navMeshAgent;
         PlayerInputController playerInputs;
