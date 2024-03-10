@@ -73,7 +73,7 @@ namespace in3d.Utilities.GameLogic.Detection
                     if (Vector3.Angle(transform.forward, directionToTarget) < Angle / 2 || distanceToTarget < InnerDetectionRadius)
                     {
 
-                        Debug.DrawLine(transform.position + fovOffset, directionToTarget * distanceToTarget, Color.red, 2f);
+                        // Debug.DrawLine(transform.position + fovOffset, directionToTarget * distanceToTarget, Color.red, 2f);
                         RaycastHit hit;
                         if (Physics.Raycast(transform.position + fovOffset, directionToTarget, out hit, distanceToTarget, obstructionMask))
                         {

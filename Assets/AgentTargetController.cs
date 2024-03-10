@@ -29,19 +29,28 @@ namespace in3d.EL.GameLogic.AI
         [SerializeField] private float lookAtThreshold = 135f;
         private Vector3 lookDirection;
 
-        void Update(){
-            if(lookAtTarget != null){
-                lookAtRetarget.position = Vector3.Slerp(lookAtRetarget.position ,lookAtTarget.position, 10f * Time.deltaTime);
-            }else{
-                lookAtRetarget.position = Vector3.Slerp(lookAtRetarget.position ,transform.position + transform.forward * 10f, 10f * Time.deltaTime);
+        void Update()
+        {
+            if (lookAtTarget != null)
+            {
+                lookAtRetarget.position = Vector3.Slerp(lookAtRetarget.position, lookAtTarget.position, 10f * Time.deltaTime);
             }
-            
+            else
+            {
+                lookAtRetarget.position = Vector3.Slerp(lookAtRetarget.position, transform.position + transform.forward * 10f, 10f * Time.deltaTime);
+            }
+
             float lookAtAngle = Vector3.Angle(transform.forward, lookAtRetarget.position - transform.position);
 
-            if(lookAtAngle > lookAtThreshold){
+
+            // TODO at priorty override to change target
+            if (lookAtAngle > lookAtThreshold)
+            {
                 spineRig.weight = Mathf.Lerp(spineRig.weight, 0f, 10f * Time.deltaTime);
                 headRig.weight = Mathf.Lerp(headRig.weight, 0f, 10f * Time.deltaTime);
-            }else{
+            }
+            else
+            {
                 spineRig.weight = Mathf.Lerp(spineRig.weight, spineWeight, 10f * Time.deltaTime);
                 headRig.weight = Mathf.Lerp(headRig.weight, headWeight, 10f * Time.deltaTime);
             }
@@ -49,27 +58,19 @@ namespace in3d.EL.GameLogic.AI
         }
         void LateUpdate()
         {
-            RotateForward();
-            // if (HasTarget)
-            // {
-            //     if (lookAtTarget != null)
-            //     {
-            //         RotateToTarget();
-            //     }
-            //     else
-            //     {
-            //         RotateToDestination();
-            //     }
+            if (HasTarget)
+            {
+                RotateToDestination();
 
-            //     animator.SetFloat("LookDirectionX", lookDirection.x);
-            //     animator.SetFloat("LookDirectionY", lookDirection.z);
-            // }
-            // else
-            // {
-            //     RotateForward();
-            //     animator.SetFloat("LookDirectionX", 0f);
-            //     animator.SetFloat("LookDirectionY", 1f);
-            // }
+                animator.SetFloat("LookDirectionX", lookDirection.x);
+                animator.SetFloat("LookDirectionY", lookDirection.z);
+            }
+            else
+            {
+                RotateForward();
+                animator.SetFloat("LookDirectionX", 0f);
+                animator.SetFloat("LookDirectionY", 1f);
+            }
         }
 
         public void SetLookAtTarget(Transform target = null)
