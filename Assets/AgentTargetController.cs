@@ -16,33 +16,40 @@ namespace in3d.EL.GameLogic.AI
         public bool HasTarget => navMeshAgent.destination != transform.position;
 
         private Queue<Vector3> targetQueue = new Queue<Vector3>();
-         [SerializeField] private Transform lookAtTarget = null;
-        [SerializeField] private Vector3 lookDirection;
-        [SerializeField] private Vector3 destination;
+        [SerializeField] private Transform lookAtRetarget;
+        private Transform lookAtTarget = null;
+        private Vector3 lookDirection;
 
+        void Update(){
+            if(lookAtTarget != null){
+                lookAtRetarget.position = lookAtTarget.position;
+            }else{
+                lookAtRetarget.position = navMeshAgent.destination;
+            }
+        }
         void LateUpdate()
         {
-            destination = navMeshAgent.destination;
-            if (HasTarget)
-            {
-                if (lookAtTarget != null)
-                {
-                    RotateToTarget();
-                }
-                else
-                {
-                    RotateToDestination();
-                }
+            RotateForward();
+            // if (HasTarget)
+            // {
+            //     if (lookAtTarget != null)
+            //     {
+            //         RotateToTarget();
+            //     }
+            //     else
+            //     {
+            //         RotateToDestination();
+            //     }
 
-                animator.SetFloat("LookDirectionX", lookDirection.x);
-                animator.SetFloat("LookDirectionY", lookDirection.z);
-            }
-            else
-            {
-                RotateForward();
-                animator.SetFloat("LookDirectionX", 0f);
-                animator.SetFloat("LookDirectionY", 1f);
-            }
+            //     animator.SetFloat("LookDirectionX", lookDirection.x);
+            //     animator.SetFloat("LookDirectionY", lookDirection.z);
+            // }
+            // else
+            // {
+            //     RotateForward();
+            //     animator.SetFloat("LookDirectionX", 0f);
+            //     animator.SetFloat("LookDirectionY", 1f);
+            // }
         }
 
         public void SetLookAtTarget(Transform target = null)

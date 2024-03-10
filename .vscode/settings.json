@@ -53,6 +53,7 @@
     },
     "dotnet.defaultSolution": "Eclipsed Legacy.sln",
     "cSpell.words": [
-        "Behaviour"
+        "Behaviour",
+        "Retarget"
     ]
 }
