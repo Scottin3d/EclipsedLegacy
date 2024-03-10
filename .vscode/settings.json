@@ -51,5 +51,8 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "Eclipsed Legacy.sln"
+    "dotnet.defaultSolution": "Eclipsed Legacy.sln",
+    "cSpell.words": [
+        "Behaviour"
+    ]
 }

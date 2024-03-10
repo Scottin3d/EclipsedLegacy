@@ -10,7 +10,6 @@ namespace in3d.EL.GameLogic.StateMachine.Agent
 
         public override void OnEnter()
         {
-            animator.SetFloat("Speed", 0f);
             animator.SetLayerWeight((int)layer, 1);
             animator.SetTrigger("Build");
             animator.SetBool("IsBuilding", true);

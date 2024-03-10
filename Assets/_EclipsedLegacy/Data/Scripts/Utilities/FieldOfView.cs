@@ -1,15 +1,19 @@
 
 using System.Collections;
+using in3d.EL.GameLogic.AI;
+using KBCore.Refs;
 using UnityEngine;
 
 namespace in3d.Utilities.GameLogic.Detection
 {
     public enum GizmoDisplayType { d3, d2 }
-    public class FieldOfView : MonoBehaviour
+    public class FieldOfView : ValidatedMonoBehaviour
     {
+        [SerializeField, Self] private AgentTargetController agentTargetController;
         public GizmoDisplayType gizmoType = GizmoDisplayType.d2;
         CountdownTimer detectionTimer;
         public bool ShowGizmos = true;
+        [SerializeField] private Vector3 fovOffset = Vector3.zero;
         [SerializeField] private float detectionRadius = 10f;
         public float DetectionRadius => detectionRadius;
         [SerializeField] private float innerDetectionRadius = 5f;
@@ -69,28 +73,35 @@ namespace in3d.Utilities.GameLogic.Detection
                     if (Vector3.Angle(transform.forward, directionToTarget) < Angle / 2 || distanceToTarget < InnerDetectionRadius)
                     {
 
-                        Debug.DrawLine(transform.position, directionToTarget * distanceToTarget, Color.red, 2f);
+                        Debug.DrawLine(transform.position + fovOffset, directionToTarget * distanceToTarget, Color.red, 2f);
                         RaycastHit hit;
-                        if (Physics.Raycast(transform.position, directionToTarget, out hit, distanceToTarget, obstructionMask))
+                        if (Physics.Raycast(transform.position + fovOffset, directionToTarget, out hit, distanceToTarget, obstructionMask))
                         {
                             // Log the name of the obstruction
                             Debug.Log("Obstruction: " + hit.collider.gameObject.name);
                             CanSeeTarget = false;
+                            agentTargetController.SetLookAtTarget();
                         }
                         else
                         {
                             CanSeeTarget = true;
                             bestTarget = target;
+                            agentTargetController.SetLookAtTarget(target);
                             Debug.Log("I see the player");
                         }
 
                     }
-                    else { CanSeeTarget = false; }
+                    else { 
+                        CanSeeTarget = false;
+                        agentTargetController.SetLookAtTarget();
+                        }
                 }
             }
             else if (CanSeeTarget)
             {
                 CanSeeTarget = false;
+                agentTargetController.SetLookAtTarget();
+                
             }
         }
 

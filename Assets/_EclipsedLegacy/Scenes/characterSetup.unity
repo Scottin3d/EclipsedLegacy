@@ -135,7 +135,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 32eb988a6bd552247b46d7b2276b9d86,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4.33
+      value: -12.85
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 32eb988a6bd552247b46d7b2276b9d86,
         type: 3}
@@ -145,7 +145,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 32eb988a6bd552247b46d7b2276b9d86,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.16
+      value: -2.13
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 32eb988a6bd552247b46d7b2276b9d86,
         type: 3}
@@ -2121,8 +2121,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1066170176}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.1397574, y: 0.83681554, z: -0.25091025, w: -0.46610275}
-  m_LocalPosition: {x: 3, y: 3.5057805, z: 1.4739434}
+  m_LocalRotation: {x: -0.12437003, y: 0.8662, z: -0.26682118, w: -0.40377748}
+  m_LocalPosition: {x: 8.452547, y: 8.116883, z: 6.1592836}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2381,6 +2381,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animationController: {fileID: 1309643323}
   navMeshAgent: {fileID: 1309643320}
+  agentTargetController: {fileID: 6278630300100097873}
   clickEffect: {fileID: 8292468911715434760, guid: b120c8e04a73bf74eb94398298abcca9,
     type: 3}
   clickLayerMask:
@@ -2438,8 +2439,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8149ee23661a5534f97108d4757b7c9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  agentTargetController: {fileID: 6278630300100097873}
   gizmoType: 1
   ShowGizmos: 1
+  fovOffset: {x: 0, y: 1, z: 0}
   detectionRadius: 10
   innerDetectionRadius: 5
   targetMask:
@@ -2677,7 +2680,7 @@ NavMeshObstacle:
   m_Shape: 1
   m_Extents: {x: 1.312, y: 0.83800006, z: 0.735}
   m_MoveThreshold: 0.1
-  m_Carve: 0
+  m_Carve: 1
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0.83800006, z: 0}
   m_TimeToStationary: 0.5
@@ -3621,6 +3624,7 @@ GameObject:
   - component: {fileID: 1309643323}
   - component: {fileID: 1309643324}
   - component: {fileID: 1309643325}
+  - component: {fileID: 6278630300100097873}
   m_Layer: 0
   m_Name: SyntySkelton
   m_TagString: Untagged
@@ -3649,6 +3653,24 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &6278630300100097873
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 759367286513858448}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dec8015a5e3047d4a9305e8a141d12e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  navMeshAgent: {fileID: 1309643320}
+  animator: {fileID: 6278630300100097872}
+  lookRotationSpeed: 8
+  lookAtTarget: {fileID: 0}
+  lookDirection: {x: 0, y: 0, z: 0}
+  destination: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

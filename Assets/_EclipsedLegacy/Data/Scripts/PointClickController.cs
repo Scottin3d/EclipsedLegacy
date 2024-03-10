@@ -1,5 +1,6 @@
 
 using System;
+using in3d.EL.GameLogic.AI;
 using in3d.EL.GameLogic.StateMachine.Agent;
 using in3d.Utilities.GameLogic.StateMachine;
 using in3d.Utilities.StateMachine.interfaces;
@@ -16,6 +17,7 @@ namespace in3d.EL.Player.Controllers
         
         [SerializeField, Self] private AnimationController animationController;
         [SerializeField, Self] private NavMeshAgent navMeshAgent;
+        [SerializeField, Self] private AgentTargetController agentTargetController;
         PlayerInputController playerInputs;
 
         [SerializeField] private ParticleSystem clickEffect;
@@ -40,7 +42,7 @@ namespace in3d.EL.Player.Controllers
 
         private void OnClick()
         {
-            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, 100f, clickLayerMask))
+            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, 1000f, clickLayerMask))
             {
                 if (Time.time - lastClickTime < 0.2f)
                 {

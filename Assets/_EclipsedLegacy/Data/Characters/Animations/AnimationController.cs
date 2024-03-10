@@ -39,6 +39,7 @@ namespace in3d.EL
         {
             stateMachine.Update();
             animator.SetBool("HasWeapon", hasWeapon);
+            animator.SetFloat("Speed", navMeshAgent.velocity.magnitude);
         }
         void FixedUpdate()
         {
@@ -46,7 +47,7 @@ namespace in3d.EL
         }
 
         private bool EnterBuildState(){
-            return !navMeshAgent.hasPath && hasJob && !hasWeapon;
+            return hasJob;
         }
 
         private bool ReturnToBaseLocomotion(){
