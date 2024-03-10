@@ -40,6 +40,8 @@ namespace in3d.EL
             stateMachine.Update();
             animator.SetBool("HasWeapon", hasWeapon);
             animator.SetFloat("Speed", navMeshAgent.velocity.magnitude);
+
+            Debug.Log("Path:"+ navMeshAgent.pathStatus);
         }
         void FixedUpdate()
         {
