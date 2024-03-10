@@ -17,14 +17,14 @@ namespace in3d.EL.GameLogic.AI
 
         private Queue<Vector3> targetQueue = new Queue<Vector3>();
         [SerializeField] private Transform lookAtRetarget;
-        private Transform lookAtTarget = null;
+        [SerializeField] private Transform lookAtTarget = null;
         private Vector3 lookDirection;
 
         void Update(){
             if(lookAtTarget != null){
-                lookAtRetarget.position = lookAtTarget.position;
+                lookAtRetarget.position = Vector3.Slerp(lookAtRetarget.position ,lookAtTarget.position, 10f * Time.deltaTime);
             }else{
-                lookAtRetarget.position = navMeshAgent.destination;
+                lookAtRetarget.position = Vector3.Slerp(lookAtRetarget.position ,transform.position + transform.forward * 10f, 10f * Time.deltaTime);
             }
         }
         void LateUpdate()
