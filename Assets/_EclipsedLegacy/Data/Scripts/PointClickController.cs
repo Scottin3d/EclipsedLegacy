@@ -1,13 +1,8 @@
-
-using System;
+using in3d.EL.Agent.Controllers;
 using in3d.EL.GameLogic.AI;
-using in3d.EL.GameLogic.StateMachine.Agent;
-using in3d.Utilities.GameLogic.StateMachine;
-using in3d.Utilities.StateMachine.interfaces;
 using KBCore.Refs;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.InputSystem;
 
 namespace in3d.EL.Player.Controllers
 {

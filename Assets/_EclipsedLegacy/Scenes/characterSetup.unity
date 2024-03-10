@@ -4171,6 +4171,7 @@ GameObject:
   - component: {fileID: 6505108380627672014}
   - component: {fileID: 6505108380627672013}
   - component: {fileID: 6505108380627672012}
+  - component: {fileID: 6505108380627672018}
   m_Layer: 0
   m_Name: Agent
   m_TagString: Untagged
@@ -4393,8 +4394,6 @@ MonoBehaviour:
   animator: {fileID: 911668105439560112}
   propHold: {fileID: 6505108380627672015}
   navMeshAgent: {fileID: 6505108380627672017}
-  weaponLookAtConstraint: {fileID: 240497698}
-  weaponLookAtRig: {fileID: 889691069}
   hasJob: 0
   hasWeapon: 1
   isCarrying: 0
@@ -4456,6 +4455,20 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &6505108380627672018
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5840352019374326128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c3996dddebe6a244b45cc294f05c240, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  navMeshAgent: {fileID: 6505108380627672017}
+  weaponLookAtConstraint: {fileID: 240497698}
 --- !u!4 &6525776459346017333
 Transform:
   m_ObjectHideFlags: 0
