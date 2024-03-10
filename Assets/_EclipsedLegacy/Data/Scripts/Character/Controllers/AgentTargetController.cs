@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using in3d.Utilities.GameLogic.Detection;
 using KBCore.Refs;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Animations.Rigging;
 
-namespace in3d.EL.GameLogic.AI
+namespace in3d.EL.Agent.Controllers
 {
     [RequireComponent(typeof(NavMeshAgent))]
     public class AgentTargetController : ValidatedMonoBehaviour
@@ -28,6 +29,14 @@ namespace in3d.EL.GameLogic.AI
         [SerializeField] private Transform lookAtTarget = null;
         [SerializeField] private float lookAtThreshold = 135f;
         private Vector3 lookDirection;
+
+        void OnEnable(){
+            FieldOfView.TargetDetected += SetLookAtTarget;
+        }
+
+        void OnDisable(){
+            FieldOfView.TargetDetected -= SetLookAtTarget;
+        }
 
         void Update()
         {
@@ -73,8 +82,9 @@ namespace in3d.EL.GameLogic.AI
             }
         }
 
-        public void SetLookAtTarget(Transform target = null)
+        public void SetLookAtTarget(Transform source, Transform target = null)
         {
+            if(source != transform) return;
             lookAtTarget = target;
         }
 

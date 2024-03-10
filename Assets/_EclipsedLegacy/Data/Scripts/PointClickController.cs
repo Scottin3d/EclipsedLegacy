@@ -1,5 +1,4 @@
 using in3d.EL.Agent.Controllers;
-using in3d.EL.GameLogic.AI;
 using KBCore.Refs;
 using UnityEngine;
 using UnityEngine.AI;

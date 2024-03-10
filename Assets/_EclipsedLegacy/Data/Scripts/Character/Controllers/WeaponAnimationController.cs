@@ -9,6 +9,7 @@ namespace in3d.EL.Agent.Controllers
     public class WeaponAnimationController : ValidatedMonoBehaviour
     {
         [SerializeField, Self] private NavMeshAgent navMeshAgent;
+        [SerializeField, Self] private FirearmController firearmController;
         [SerializeField] private MultiAimConstraint weaponLookAtConstraint;
 
         // Update is called once per frame
@@ -17,7 +18,7 @@ namespace in3d.EL.Agent.Controllers
             // set the rig weight of weaponLookAtRig if the agent velcoity is greater than 0
             // float egressWeight = math.lerp(1f, 0f, 5f * Time.deltaTime);
             // float ingressWeight = math.lerp(0f, 1f, 5f * Time.deltaTime);
-            if (navMeshAgent.velocity.magnitude > 0)
+            if (firearmController.HasTarget)
             {
                 // weaponLookAtRig.weight = 1f;
                 var data = weaponLookAtConstraint.data.sourceObjects;

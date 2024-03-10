@@ -1,6 +1,7 @@
 
+using System;
 using System.Collections;
-using in3d.EL.GameLogic.AI;
+using in3d.EL.Agent.Controllers;
 using KBCore.Refs;
 using UnityEngine;
 
@@ -26,6 +27,8 @@ namespace in3d.Utilities.GameLogic.Detection
 
         private Transform bestTarget = null;
         public Transform BestTarget => bestTarget;
+
+        public static Action<Transform, Transform> TargetDetected;
 
         private void Start()
         {
@@ -72,35 +75,34 @@ namespace in3d.Utilities.GameLogic.Detection
 
                     if (Vector3.Angle(transform.forward, directionToTarget) < Angle / 2 || distanceToTarget < InnerDetectionRadius)
                     {
-
-                        // Debug.DrawLine(transform.position + fovOffset, directionToTarget * distanceToTarget, Color.red, 2f);
                         RaycastHit hit;
                         if (Physics.Raycast(transform.position + fovOffset, directionToTarget, out hit, distanceToTarget, obstructionMask))
                         {
-                            // Log the name of the obstruction
-                            // Debug.Log("Obstruction: " + hit.collider.gameObject.name);
                             CanSeeTarget = false;
-                            agentTargetController.SetLookAtTarget();
+                            TargetDetected?.Invoke(transform, null);
+                            // agentTargetController.SetLookAtTarget();
                         }
                         else
                         {
                             CanSeeTarget = true;
                             bestTarget = target;
-                            agentTargetController.SetLookAtTarget(target);
-                            // Debug.Log("I see the player");
+                            TargetDetected?.Invoke(transform, target);
+                            // agentTargetController.SetLookAtTarget(target);
                         }
 
                     }
                     else { 
                         CanSeeTarget = false;
-                        agentTargetController.SetLookAtTarget();
-                        }
+                        TargetDetected?.Invoke(transform, null);
+                        // agentTargetController.SetLookAtTarget();
+                    }
                 }
             }
             else if (CanSeeTarget)
             {
                 CanSeeTarget = false;
-                agentTargetController.SetLookAtTarget();
+                TargetDetected?.Invoke(transform, null);
+                // agentTargetController.SetLookAtTarget();
                 
             }
         }

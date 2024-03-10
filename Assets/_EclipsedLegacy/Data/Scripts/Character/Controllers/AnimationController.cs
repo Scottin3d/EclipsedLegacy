@@ -13,6 +13,7 @@ namespace in3d.EL.Agent.Controllers
         [SerializeField, Self] private Animator animator;
         [SerializeField, Self] private PropHold propHold;
         [SerializeField, Self] private NavMeshAgent navMeshAgent;
+        [SerializeField, Self] private FirearmController firearmController; 
         private StateMachine stateMachine;
         public bool hasJob = false;
         public bool hasWeapon = false;
