@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using KBCore.Refs;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Animations.Rigging;
 
 namespace in3d.EL.GameLogic.AI
 {
@@ -13,11 +14,19 @@ namespace in3d.EL.GameLogic.AI
         [SerializeField, Self] private Animator animator;
         [SerializeField] private float lookRotationSpeed = 8f;
 
+        [SerializeField] private Rig spineRig;
+        [Range(0, 1)]
+        [SerializeField] private float spineWeight = 0.7f;
+        [SerializeField] private Rig headRig;
+        [Range(0, 1)]
+        [SerializeField] private float headWeight = 1f;
+
         public bool HasTarget => navMeshAgent.destination != transform.position;
 
         private Queue<Vector3> targetQueue = new Queue<Vector3>();
         [SerializeField] private Transform lookAtRetarget;
         [SerializeField] private Transform lookAtTarget = null;
+        [SerializeField] private float lookAtThreshold = 135f;
         private Vector3 lookDirection;
 
         void Update(){
@@ -26,6 +35,17 @@ namespace in3d.EL.GameLogic.AI
             }else{
                 lookAtRetarget.position = Vector3.Slerp(lookAtRetarget.position ,transform.position + transform.forward * 10f, 10f * Time.deltaTime);
             }
+            
+            float lookAtAngle = Vector3.Angle(transform.forward, lookAtRetarget.position - transform.position);
+
+            if(lookAtAngle > lookAtThreshold){
+                spineRig.weight = Mathf.Lerp(spineRig.weight, 0f, 10f * Time.deltaTime);
+                headRig.weight = Mathf.Lerp(headRig.weight, 0f, 10f * Time.deltaTime);
+            }else{
+                spineRig.weight = Mathf.Lerp(spineRig.weight, spineWeight, 10f * Time.deltaTime);
+                headRig.weight = Mathf.Lerp(headRig.weight, headWeight, 10f * Time.deltaTime);
+            }
+
         }
         void LateUpdate()
         {

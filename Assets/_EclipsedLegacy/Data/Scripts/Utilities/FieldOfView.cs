@@ -78,7 +78,7 @@ namespace in3d.Utilities.GameLogic.Detection
                         if (Physics.Raycast(transform.position + fovOffset, directionToTarget, out hit, distanceToTarget, obstructionMask))
                         {
                             // Log the name of the obstruction
-                            Debug.Log("Obstruction: " + hit.collider.gameObject.name);
+                            // Debug.Log("Obstruction: " + hit.collider.gameObject.name);
                             CanSeeTarget = false;
                             agentTargetController.SetLookAtTarget();
                         }
@@ -87,7 +87,7 @@ namespace in3d.Utilities.GameLogic.Detection
                             CanSeeTarget = true;
                             bestTarget = target;
                             agentTargetController.SetLookAtTarget(target);
-                            Debug.Log("I see the player");
+                            // Debug.Log("I see the player");
                         }
 
                     }

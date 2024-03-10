@@ -5587,8 +5587,13 @@ MonoBehaviour:
   navMeshAgent: {fileID: 1309643320}
   animator: {fileID: 6278630300100097872}
   lookRotationSpeed: 8
+  spineRig: {fileID: 0}
+  spineWeight: 0.7
+  headRig: {fileID: 0}
+  headWeight: 1
   lookAtRetarget: {fileID: 0}
   lookAtTarget: {fileID: 0}
+  lookAtThreshold: 135
 --- !u!1 &6360771132423707713
 GameObject:
   m_ObjectHideFlags: 0
@@ -5673,8 +5678,13 @@ MonoBehaviour:
   navMeshAgent: {fileID: 6505108380627672017}
   animator: {fileID: 911668105439560112}
   lookRotationSpeed: 8
+  spineRig: {fileID: 421046697}
+  spineWeight: 0.7
+  headRig: {fileID: 1502397475}
+  headWeight: 1
   lookAtRetarget: {fileID: 196396286}
   lookAtTarget: {fileID: 0}
+  lookAtThreshold: 135
 --- !u!114 &6505108380627672013
 MonoBehaviour:
   m_ObjectHideFlags: 0
