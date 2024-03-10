@@ -54,6 +54,8 @@
     "dotnet.defaultSolution": "Eclipsed Legacy.sln",
     "cSpell.words": [
         "Behaviour",
+        "Cinemachine",
+        "Mathf",
         "Retarget"
     ]
 }
