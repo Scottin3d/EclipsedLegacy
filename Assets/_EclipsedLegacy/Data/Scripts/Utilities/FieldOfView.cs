@@ -1,6 +1,7 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using in3d.EL.Agent.Controllers;
 using KBCore.Refs;
 using UnityEngine;
@@ -19,13 +20,15 @@ namespace in3d.Utilities.GameLogic.Detection
         public float DetectionRadius => detectionRadius;
         [SerializeField] private float innerDetectionRadius = 5f;
         public float InnerDetectionRadius => innerDetectionRadius;
-        public float Angle { get; private set; } = 60f;
+        [SerializeField] private float fovAngle = 60f;
+        public float FOVAngle => fovAngle;
         [SerializeField] private LayerMask targetMask;
         [SerializeField] private LayerMask obstructionMask;
         [SerializeField] private float detectionCoolDown = 1f;
-        [SerializeField] public bool CanSeeTarget { get; private set; }
+        [SerializeField] public bool CanSeeTarget => targets.Count > 0;
 
         private Transform bestTarget = null;
+        [SerializeField] List<Transform> targets;
         public Transform BestTarget => bestTarget;
 
         public static Action<Transform, Transform> TargetDetected;
@@ -33,6 +36,7 @@ namespace in3d.Utilities.GameLogic.Detection
         private void Start()
         {
             StartCoroutine(FOVRoutine());
+            targets = new List<Transform>();
         }
 
         public void StartFOV()
@@ -60,6 +64,7 @@ namespace in3d.Utilities.GameLogic.Detection
         private void FieldOfViewCheck()
         {
             bestTarget = null;
+            targets.Clear();
 
             Collider[] rangeChecks = Physics.OverlapSphere(transform.position, DetectionRadius, targetMask);
 
@@ -68,43 +73,30 @@ namespace in3d.Utilities.GameLogic.Detection
                 foreach (Collider potentialTarget in rangeChecks)
                 {
                     Transform target = potentialTarget.transform;
-                    Debug.Log(target.transform.name);
                     Vector3 directionToTarget = (target.position - transform.position).normalized;
 
                     float distanceToTarget = Vector3.Distance(transform.position, target.position);
-
-                    if (Vector3.Angle(transform.forward, directionToTarget) < Angle / 2 || distanceToTarget < InnerDetectionRadius)
+                    float angle = Vector3.Angle(transform.forward, directionToTarget);
+                    if (angle < fovAngle / 2 || distanceToTarget < InnerDetectionRadius)
+                    // if (angle < FOVAngle / 2)
                     {
                         RaycastHit hit;
-                        if (Physics.Raycast(transform.position + fovOffset, directionToTarget, out hit, distanceToTarget, obstructionMask))
+                        if (!Physics.Raycast(transform.position + fovOffset, directionToTarget, out hit, distanceToTarget, obstructionMask))
                         {
-                            CanSeeTarget = false;
-                            TargetDetected?.Invoke(transform, null);
+                            targets.Add(target);
+                            // TargetDetected?.Invoke(transform, null);
                             // agentTargetController.SetLookAtTarget();
                         }
-                        else
-                        {
-                            CanSeeTarget = true;
-                            bestTarget = target;
-                            TargetDetected?.Invoke(transform, target);
-                            // agentTargetController.SetLookAtTarget(target);
-                        }
-
-                    }
-                    else { 
-                        CanSeeTarget = false;
-                        TargetDetected?.Invoke(transform, null);
-                        // agentTargetController.SetLookAtTarget();
                     }
                 }
             }
-            else if (CanSeeTarget)
-            {
-                CanSeeTarget = false;
-                TargetDetected?.Invoke(transform, null);
-                // agentTargetController.SetLookAtTarget();
-                
-            }
+
+            // sort targets by distance ascending
+            targets.Sort((a, b) => Vector3.Distance(transform.position, a.position).CompareTo(Vector3.Distance(transform.position, b.position)));
+            
+            // best target is the first in the list else null
+            bestTarget = targets.Count > 0 ? targets[0] : null;
+            TargetDetected?.Invoke(transform, bestTarget);
         }
 
 
@@ -127,8 +119,8 @@ namespace in3d.Utilities.GameLogic.Detection
                     Gizmos.DrawWireSphere(transform.position, InnerDetectionRadius);
                 }
 
-                Vector3 viewAngle01 = DirectionFromAngle(transform.eulerAngles.y, -Angle / 2);
-                Vector3 viewAngle02 = DirectionFromAngle(transform.eulerAngles.y, Angle / 2);
+                Vector3 viewAngle01 = DirectionFromAngle(transform.eulerAngles.y, -fovAngle / 2);
+                Vector3 viewAngle02 = DirectionFromAngle(transform.eulerAngles.y, fovAngle / 2);
 
                 // view angle
                 Gizmos.color = Color.yellow;

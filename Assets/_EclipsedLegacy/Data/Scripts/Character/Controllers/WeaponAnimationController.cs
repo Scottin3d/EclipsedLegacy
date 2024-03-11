@@ -11,10 +11,12 @@ namespace in3d.EL.Agent.Controllers
         [SerializeField, Self] private NavMeshAgent navMeshAgent;
         [SerializeField, Self] private FirearmController firearmController;
         [SerializeField] private MultiAimConstraint weaponLookAtConstraint;
+        [SerializeField] private float lookAtThreshold = 135f;
 
         // Update is called once per frame
         void Update()
         {
+            // float lookAtAngle = Vector3.Angle(transform.forward, lookAtRetarget.position - transform.position);
             // set the rig weight of weaponLookAtRig if the agent velcoity is greater than 0
             // float egressWeight = math.lerp(1f, 0f, 5f * Time.deltaTime);
             // float ingressWeight = math.lerp(0f, 1f, 5f * Time.deltaTime);

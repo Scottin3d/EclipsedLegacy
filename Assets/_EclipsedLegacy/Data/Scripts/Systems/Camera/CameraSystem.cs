@@ -70,8 +70,7 @@ namespace in3d.EL.Systems.Camera
             if(targetFollowOffset.magnitude < minFollowOffset){
                 targetFollowOffset =  zoomDirection * minFollowOffset;
             }
-            // modify the cinemachine  offset
-        
+            
             virtualCamera.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset = Vector3.Lerp(virtualCamera.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset, targetFollowOffset, zoomSpeed * Time.deltaTime);
         }
 

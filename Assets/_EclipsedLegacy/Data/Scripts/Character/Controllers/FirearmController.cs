@@ -7,8 +7,8 @@ namespace in3d.EL.Agent.Controllers
     {
         [SerializeField] private Transform firePoint;
         [SerializeField] private Transform currentTarget = null;
-        // public bool HasTarget => currentTarget != null;
-        public bool HasTarget = true;
+        public bool HasTarget => currentTarget != null;
+        // public bool HasTarget = true;
 
         public float fireRate = 60f; // per minute
         private float timeSinceLastShot = 0f;
